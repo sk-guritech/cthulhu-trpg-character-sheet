@@ -14,7 +14,13 @@
 	<body>
 		<div id="app" style="">
 			<div style="display: grid; grid-template-columns: 13.5em 13.5em 13.5em; margin:2em">
-				<ability_card v-for="item in abilities" :ability_ja_name="item.ja_name" :ability_en_name="item.en_name" :ability_value="item.value" :class="'ability-'+item.en_name" :is_checked="item.is_checked" @change-ability-status="change_ability_status" @delete-ability="delete_ability"></ability_card>
+				<ability_card v-for="item in abilities" :ability_name="item.ja_name" :ability_id="item.en_name" :ability_value="item.value" :class="'ability-'+item.en_name" :is_checked="item.is_checked" @change-ability-status="change_ability_status" @delete-ability="delete_ability"/></ability_card>
+
+				<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 12em;">
+					<button v-on:click="add_new_ability" class="btn btn-secondary" style="padding: 0.1em; margin-left: -0.05em">+</button>
+					<input class="new-ability-name" type="text" name="" style="width:6.1em;font-size: small;margin-left:0.4em;">
+					<input class="new-ability-value" type="number" style="margin-left: 0.2em;width: 3em" min="0" max="99" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+				</div>
 			</div>
 
 			<div style="margin: 2em">
@@ -37,7 +43,7 @@
 	const app = Vue.createApp({
 		data() {
 			return {
-				abilities:{/*
+				abilities:[/*
 					intimidating:{ja_name: "威圧", en_name: "intimidating",  value: 15, is_checked: false},
 					say:{ja_name: "言いくるめ", en_name: "say", value: 5, is_checked: false},
 					medicine:{ja_name: "医学", en_name: "medicine", value: 1, is_checked: false},
@@ -66,7 +72,7 @@
 					psychology:{ja_name:"心理学",en_name:"psychology",value:10,is_checked:false},
 					anthropology:{ja_name:"人類学",en_name:"anthropology",value:1,is_checked:false},
 					swim:{ja_name:"水泳",en_name:"swim",value:20,is_checked:false}*/
-				}
+				]
 			}
 		},
 		methods:{
@@ -101,19 +107,30 @@
 			},
 			delete_ability(event_value){
 				delete this.abilities[event_value[1]];
+				delete this.abilities.filter(
+						function(value){
+							console.log(event_value[1]);
+							console.log(value.en_name);
+							return value.en_name == event_value[1];
+						})
+				
+			},
+			add_new_ability(event){
+				var new_ability_value = parseInt(document.getElementsByClassName("new-ability-value")[0].value);
+				var new_ability_name = document.getElementsByClassName("new-ability-name")[0].value;
+				this.abilities[new_ability_name] = {ja_name:new_ability_name, en_name:new_ability_name, value:new_ability_value, is_checked:false};
 			}
 		}
 	});
 
 	app.component("ability_card",{
-		props: ['ability_ja_name','ability_en_name', 'ability_value'],
-
+		props: ['ability_name','ability_id', 'ability_value'],
 		props: {
-			ability_ja_name: {
+			ability_name: {
 				type: String,
 				required: true
 			},
-			ability_en_name: {
+			ability_id: {
 				type: String,
 				required: true
 			},
@@ -132,7 +149,7 @@
 				<input v-else type="checkbox" value=true @change="onChangeInput">
 
 				<div style="margin-left: 0.4em; width: 8em; font-size:small" @click.right.prevent="deleteAbility">
-					{{ability_ja_name}}:
+					{{ability_name}}:
 				</div>
 				<div style="margin-left: 0.4em">
 					<input :value="ability_value" type="number" @change="onChangeInput" style="width: 3em" min="0" max="99" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
@@ -146,11 +163,11 @@
 
 		methods: {
 			onChangeInput(event){
-				this.$emit('change-ability-status', [event.target.value, this.ability_en_name]);
+				this.$emit('change-ability-status', [event.target.value, this.ability_id]);
 			},
 			deleteAbility(event){
 				console.log(event);
-				this.$emit('delete-ability', [event, this.ability_en_name]);
+				this.$emit('delete-ability', [event, this.ability_id]);
 			}
 		}
 	});
