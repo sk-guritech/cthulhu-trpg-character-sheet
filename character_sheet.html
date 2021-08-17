@@ -3,21 +3,24 @@
 <script src="https://unpkg.com/jszip@3.7.1/lib/index.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
-<div id="app">
+<div id="app" style="">
 	<div style="display: grid; grid-template-columns: 13.5em 13.5em 13.5em; margin:2em">
-		<ability_card v-for="item in abilities" :ability_ja_name="item.ja_name" :ability_en_name="item.en_name" :ability_value="item.value" :class="'ability-'+item.en_name" :is_checked="item.is_checked" @change-ability-status="change_ability_status"></ability_card>
+		<ability_card v-for="item in abilities" :ability_ja_name="item.ja_name" :ability_en_name="item.en_name" :ability_value="item.value" :class="'ability-'+item.en_name" :is_checked="item.is_checked" @change-ability-status="change_ability_status" @delete-ability="delete_ability"></ability_card>
 	</div>
 
-	<a v-on:click="save_sheet" style="margin: 0.5em" class="btn btn-success">save</a>
-	<label>
-		<span  class="btn btn-primary">
-			Choose File
-			<input type="file" @change="load_sheet" style="display: none">
-		</span>
-	</label>
+	<div style="margin: 2em">
+		<a v-on:click="save_sheet" style="margin: 0.5em" class="btn btn-success">save</a>
+		<label>
+			<span  class="btn btn-primary">
+				Choose File
+				<input type="file" @change="load_sheet" style="display: none">
+			</span>
+		</label>
+	</div>
 </div>
 
 <script type="text/javascript">
+	document.oncontextmenu = function () {return false;}
 	const app = Vue.createApp({
 		data() {
 			return {
@@ -67,7 +70,6 @@
 					//実パラメーター配列の更新
 					this.abilities[event_value[1]]["value"] = parseInt(event_value[0]);			
 				}
-				console.log(this.abilities)
 			},
 			save_sheet(){
 				var blob = new Blob([JSON.stringify(this.abilities)], {type: "text/plain;charset=utf-8"});
@@ -83,6 +85,9 @@
 					var json = JSON.parse(reader.result);
 					this.abilities = json;
 				};
+			},
+			delete_ability(event_value){
+				delete this.abilities[event_value[1]];
 			}
 		}
 	});
@@ -113,7 +118,7 @@
 				<input v-if="is_checked==true" type="checkbox" checked value=false @change="onChangeInput">
 				<input v-else type="checkbox" value=true @change="onChangeInput">
 
-				<div style="margin-left: 0.4em; width: 8em; font-size:small">
+				<div style="margin-left: 0.4em; width: 8em; font-size:small" @click.right.prevent="deleteAbility">
 					{{ability_ja_name}}:
 				</div>
 				<div style="margin-left: 0.4em">
@@ -129,6 +134,10 @@
 		methods: {
 			onChangeInput(event){
 				this.$emit('change-ability-status', [event.target.value, this.ability_en_name]);
+			},
+			deleteAbility(event){
+				console.log(event);
+				this.$emit('delete-ability', [event, this.ability_en_name]);
 			}
 		}
 	});
