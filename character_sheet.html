@@ -106,14 +106,9 @@
 				};
 			},
 			delete_ability(event_value){
-				delete this.abilities[event_value[1]];
-				delete this.abilities.filter(
-						function(value){
-							console.log(event_value[1]);
-							console.log(value.en_name);
-							return value.en_name == event_value[1];
-						})
-				
+				this.abilities.forEach((elem, index) => {
+					if(elem.en_name == event_value[1])this.abilities.splice(index,1);
+				})
 			},
 			add_new_ability(event){
 				var new_ability_value = parseInt(document.getElementsByClassName("new-ability-value")[0].value);
@@ -166,7 +161,6 @@
 				this.$emit('change-ability-status', [event.target.value, this.ability_id]);
 			},
 			deleteAbility(event){
-				console.log(event);
 				this.$emit('delete-ability', [event, this.ability_id]);
 			}
 		}
