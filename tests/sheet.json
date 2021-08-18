@@ -1,140 +1,140 @@
 [{
-		"ability_name": "威圧",
+		"skill_name": "威圧",
 		"value": 15,
 		"is_checked": false
 	},
 	{
-		"ability_name": "言いくるめ",
+		"skill_name": "言いくるめ",
 		"value": 5,
 		"is_checked": false
 	},
 	{
-		"ability_name": "医学",
+		"skill_name": "医学",
 		"value": 1,
 		"is_checked": false
 	},
 	{
-		"ability_name": "運転(自動車)",
+		"skill_name": "運転(自動車)",
 		"value": 20,
 		"is_checked": false
 	},
 	{
-		"ability_name": "応急手当",
+		"skill_name": "応急手当",
 		"value": 30,
 		"is_checked": false
 	},
 	{
-		"ability_name": "オカルト",
+		"skill_name": "オカルト",
 		"value": 5,
 		"is_checked": false
 	},
 	{
-		"ability_name": "隠密",
+		"skill_name": "隠密",
 		"value": 20,
 		"is_checked": false
 	},
 	{
-		"ability_name": "回避",
+		"skill_name": "回避",
 		"value": 0,
 		"is_checked": false
 	},
 	{
-		"ability_name": "科学",
+		"skill_name": "科学",
 		"value": 1,
 		"is_checked": false
 	},
 	{
-		"ability_name": "鍵開け",
+		"skill_name": "鍵開け",
 		"value": 1,
 		"is_checked": false
 	},
 	{
-		"ability_name": "鑑定",
+		"skill_name": "鑑定",
 		"value": 20,
 		"is_checked": false
 	},
 	{
-		"ability_name": "機械修理",
+		"skill_name": "機械修理",
 		"value": 10,
 		"is_checked": false
 	},
 	{
-		"ability_name": "聞き耳",
+		"skill_name": "聞き耳",
 		"value": 20,
 		"is_checked": false
 	},
 	{
-		"ability_name": "近接格闘",
+		"skill_name": "近接格闘",
 		"value": 25,
 		"is_checked": false
 	},
 	{
-		"ability_name": "クトゥルフ神話",
+		"skill_name": "クトゥルフ神話",
 		"value": 0,
 		"is_checked": false
 	},
 	{
-		"ability_name": "芸術",
+		"skill_name": "芸術",
 		"value": 5,
 		"is_checked": false
 	},
 	{
-		"ability_name": "経理",
+		"skill_name": "経理",
 		"value": 5,
 		"is_checked": false
 	},
 	{
-		"ability_name": "考古学",
+		"skill_name": "考古学",
 		"value": 1,
 		"is_checked": false
 	},
 	{
-		"ability_name": "コンピューター",
+		"skill_name": "コンピューター",
 		"value": 5,
 		"is_checked": false
 	},
 	{
-		"ability_name": "サバイバル",
+		"skill_name": "サバイバル",
 		"value": 10,
 		"is_checked": false
 	},
 	{
-		"ability_name": "自然",
+		"skill_name": "自然",
 		"value": 10,
 		"is_checked": false
 	},
 	{
-		"ability_name": "射撃(拳銃)",
+		"skill_name": "射撃(拳銃)",
 		"value": 20,
 		"is_checked": false
 	},
 	{
-		"ability_name": "射撃(RF/SG)",
+		"skill_name": "射撃(RF/SG)",
 		"value": 25,
 		"is_checked": false
 	},
 	{
-		"ability_name": "重機械操作",
+		"skill_name": "重機械操作",
 		"value": 1,
 		"is_checked": false
 	},
 	{
-		"ability_name": "信用",
+		"skill_name": "信用",
 		"value": 0,
 		"is_checked": false
 	},
 	{
-		"ability_name": "心理学",
+		"skill_name": "心理学",
 		"value": 10,
 		"is_checked": false
 	},
 	{
-		"ability_name": "人類学",
+		"skill_name": "人類学",
 		"value": 1,
 		"is_checked": false
 	},
 	{
-		"ability_name": "水泳",
+		"skill_name": "水泳",
 		"value": 20,
 		"is_checked": false
 	}
