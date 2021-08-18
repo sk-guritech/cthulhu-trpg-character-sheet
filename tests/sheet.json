@@ -1,168 +1,140 @@
 [{
-		"ja_name": "威圧",
-		"en_name": "intimidating",
+		"ability_name": "威圧",
 		"value": 15,
 		"is_checked": false
 	},
 	{
-		"ja_name": "言いくるめ",
-		"en_name": "say",
+		"ability_name": "言いくるめ",
 		"value": 5,
 		"is_checked": false
 	},
 	{
-		"ja_name": "医学",
-		"en_name": "medicine",
+		"ability_name": "医学",
 		"value": 1,
 		"is_checked": false
 	},
 	{
-		"ja_name": "運転(自動車)",
-		"en_name": "drive",
+		"ability_name": "運転(自動車)",
 		"value": 20,
 		"is_checked": false
 	},
 	{
-		"ja_name": "応急手当",
-		"en_name": "first_aid",
+		"ability_name": "応急手当",
 		"value": 30,
 		"is_checked": false
 	},
 	{
-		"ja_name": "オカルト",
-		"en_name": "occult",
+		"ability_name": "オカルト",
 		"value": 5,
 		"is_checked": false
 	},
 	{
-		"ja_name": "隠密",
-		"en_name": "covert",
+		"ability_name": "隠密",
 		"value": 20,
 		"is_checked": false
 	},
 	{
-		"ja_name": "回避",
-		"en_name": "avoidance",
+		"ability_name": "回避",
 		"value": 0,
 		"is_checked": false
 	},
 	{
-		"ja_name": "科学",
-		"en_name": "science",
+		"ability_name": "科学",
 		"value": 1,
 		"is_checked": false
 	},
 	{
-		"ja_name": "鍵開け",
-		"en_name": "picking",
+		"ability_name": "鍵開け",
 		"value": 1,
 		"is_checked": false
 	},
 	{
-		"ja_name": "鑑定",
-		"en_name": "appraisal",
+		"ability_name": "鑑定",
 		"value": 20,
 		"is_checked": false
 	},
 	{
-		"ja_name": "機械修理",
-		"en_name": "machine_repair",
+		"ability_name": "機械修理",
 		"value": 10,
 		"is_checked": false
 	},
 	{
-		"ja_name": "聞き耳",
-		"en_name": "hearing",
+		"ability_name": "聞き耳",
 		"value": 20,
 		"is_checked": false
 	},
 	{
-		"ja_name": "近接格闘",
-		"en_name": "cqb",
+		"ability_name": "近接格闘",
 		"value": 25,
 		"is_checked": false
 	},
 	{
-		"ja_name": "クトゥルフ神話",
-		"en_name": "cthulhu_mythos",
+		"ability_name": "クトゥルフ神話",
 		"value": 0,
 		"is_checked": false
 	},
 	{
-		"ja_name": "芸術",
-		"en_name": "art",
+		"ability_name": "芸術",
 		"value": 5,
 		"is_checked": false
 	},
 	{
-		"ja_name": "経理",
-		"en_name": "accounting",
+		"ability_name": "経理",
 		"value": 5,
 		"is_checked": false
 	},
 	{
-		"ja_name": "考古学",
-		"en_name": "archeology",
+		"ability_name": "考古学",
 		"value": 1,
 		"is_checked": false
 	},
 	{
-		"ja_name": "コンピューター",
-		"en_name": "computer",
+		"ability_name": "コンピューター",
 		"value": 5,
 		"is_checked": false
 	},
 	{
-		"ja_name": "サバイバル",
-		"en_name": "survival",
+		"ability_name": "サバイバル",
 		"value": 10,
 		"is_checked": false
 	},
 	{
-		"ja_name": "自然",
-		"en_name": "nature",
+		"ability_name": "自然",
 		"value": 10,
 		"is_checked": false
 	},
 	{
-		"ja_name": "射撃(拳銃)",
-		"en_name": "shoot_by_handgun",
+		"ability_name": "射撃(拳銃)",
 		"value": 20,
 		"is_checked": false
 	},
 	{
-		"ja_name": "射撃(RF/SG)",
-		"en_name": "shoot_by_rifle",
+		"ability_name": "射撃(RF/SG)",
 		"value": 25,
 		"is_checked": false
 	},
 	{
-		"ja_name": "重機械操作",
-		"en_name": "heavy_machine_operation",
+		"ability_name": "重機械操作",
 		"value": 1,
 		"is_checked": false
 	},
 	{
-		"ja_name": "信用",
-		"en_name": "credit",
+		"ability_name": "信用",
 		"value": 0,
 		"is_checked": false
 	},
 	{
-		"ja_name": "心理学",
-		"en_name": "psychology",
+		"ability_name": "心理学",
 		"value": 10,
 		"is_checked": false
 	},
 	{
-		"ja_name": "人類学",
-		"en_name": "anthropology",
+		"ability_name": "人類学",
 		"value": 1,
 		"is_checked": false
 	},
 	{
-		"ja_name": "水泳",
-		"en_name": "swim",
+		"ability_name": "水泳",
 		"value": 20,
 		"is_checked": false
 	}
