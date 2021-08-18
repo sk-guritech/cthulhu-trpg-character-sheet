@@ -19,7 +19,7 @@
 				<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 12em;">
 					<button v-on:click="add_new_ability" class="btn btn-secondary" style="padding: 0.1em; margin-left: -0.05em">+</button>
 					<input class="new-ability-name" type="text" name="" style="width:6.1em;font-size: small;margin-left:0.4em;">
-					<input class="new-ability-value" type="number" style="margin-left: 0.2em;width: 3em" min="0" max="99" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+					<input class="new-ability-value" type="number" value=0 style="margin-left: 0.2em;width: 3em" min="0" max="99" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
 				</div>
 			</div>
 
@@ -108,12 +108,18 @@
 			delete_ability(event_value){
 				this.abilities.forEach((elem, index) => {
 					if(elem.en_name == event_value[1])this.abilities.splice(index,1);
-				})
+				});
 			},
 			add_new_ability(event){
 				var new_ability_value = parseInt(document.getElementsByClassName("new-ability-value")[0].value);
 				var new_ability_name = document.getElementsByClassName("new-ability-name")[0].value;
-				this.abilities[new_ability_name] = {ja_name:new_ability_name, en_name:new_ability_name, value:new_ability_value, is_checked:false};
+				if(!new_ability_value && new_ability_value != 0)return;
+				if(!new_ability_name)return;
+
+				this.abilities.forEach((elem, index) => {
+					if(elem.en_name == new_ability_name)this.abilities.splice(index,1);
+				});				
+				this.abilities.push({ja_name:new_ability_name, en_name:new_ability_name, value:new_ability_value, is_checked:false});
 			}
 		}
 	});
