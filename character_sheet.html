@@ -13,7 +13,10 @@
 	</head>
 	<body>
 		<div id="app" style="">
-			<div>
+			<div class="abilities">
+
+			</div>
+			<div class="skills">
 				<div style="font-size: larger; border-bottom: 1px black solid; width:33.5em; margin: 2em; margin-bottom: -1em">Skills</div>
 				<div style="display: grid; grid-template-columns: 13.5em 13.5em 13.5em; margin:2em; margin-left: 3em;">
 					<skill_card v-for="item in skills" :skill_name="item.skill_name" :skill_value="item.value" :is_checked="item.is_checked" @change-skill-status="change_skill_status" @delete-skill="delete_skill"/></skill_card>
@@ -51,6 +54,21 @@
 			}
 		},
 		methods:{
+			save_sheet(){
+				var blob = new Blob([JSON.stringify(this.skills)], {type: "text/plain;charset=utf-8"});
+				saveAs(blob, "sheet.json");
+			},
+			load_sheet(event){
+				var _this = this;
+				var file = event.target.files[0];
+				var reader = new FileReader();
+				reader.readAsText(file);
+
+				reader.onload = () => {
+					var json = JSON.parse(reader.result);
+					this.skills = json;
+				};
+			},
 			change_skill_status(event_value){
 				console.log(event_value);
 				var skill_index = 0;
@@ -72,21 +90,6 @@
 					//実パラメーター配列の更新
 					this.skills[skill_index]["value"] = parseInt(event_value[0]);			
 				}
-			},
-			save_sheet(){
-				var blob = new Blob([JSON.stringify(this.skills)], {type: "text/plain;charset=utf-8"});
-				saveAs(blob, "sheet.json");
-			},
-			load_sheet(event){
-				var _this = this;
-				var file = event.target.files[0];
-				var reader = new FileReader();
-				reader.readAsText(file);
-
-				reader.onload = () => {
-					var json = JSON.parse(reader.result);
-					this.skills = json;
-				};
 			},
 			delete_skill(event_value){
 				this.skills.forEach((elem, index) => {
@@ -129,7 +132,7 @@
 				<input v-if="is_checked==true" type="checkbox" checked value=false @change="onChangeInput">
 				<input v-else type="checkbox" value=true @change="onChangeInput">
 
-				<div style="margin-left: 0.4em; width: 8em; font-size:small" @click.right.prevent="deleteAbility">
+				<div style="margin-left: 0.4em; width: 8em; font-size:small" @click.right.ctrl="deleteAbility">
 					{{skill_name}}:
 				</div>
 				<div style="margin-left: 0.4em">
