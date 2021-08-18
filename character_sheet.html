@@ -29,7 +29,7 @@
 			<div class="abilities">
 				<div style="font-size: larger; border-bottom: 1px black solid; width:33.5em; margin: 2em; margin-bottom: -1em">Abilities</div>
 				<div style="display: grid; grid-template-columns: 13.5em 13.5em 13.5em; margin:2em; margin-left: 3em;">
-					<ability_card v-for="item in abilities" :name="item.name" :value="item.value" @change-ability-status="change_ability_status" @delete-ability="delete_ability"></ability_card>
+					<ability_card v-for="item in abilities" :name="item.name" :value="item.value" @change-ability-status="change_card_status" @delete-ability="delete_card"></ability_card>
 					<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 12em;">
 						<button v-on:click="add_new_ability" class="btn btn-secondary" style="padding: 0.1em; margin-left: -0.05em">+</button>
 						<input class="new-ability-name" type="text" style="width:4.95em;font-size: small;margin-left:0.4em;">
@@ -40,7 +40,7 @@
 			<div class="skills">
 				<div style="font-size: larger; border-bottom: 1px black solid; width:33.5em; margin: 2em; margin-bottom: -1em">Skills</div>
 				<div style="display: grid; grid-template-columns: 13.5em 13.5em 13.5em; margin:2em; margin-left: 3em;">
-					<skill_card v-for="item in skills" :name="item.name" :value="item.value" :is_checked="item.is_checked" @change-skill-status="change_skill_status" @delete-skill="delete_skill"/></skill_card>
+					<skill_card v-for="item in skills" :name="item.name" :value="item.value" :is_checked="item.is_checked" @change-skill-status="change_skill_status" @delete-skill="delete_card"/></skill_card>
 
 					<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 12em;">
 						<button v-on:click="add_new_skill" class="btn btn-secondary" style="padding: 0.1em; margin-left: -0.05em">+</button>
@@ -131,25 +131,6 @@
 					this.skills[skill_index]["value"] = parseInt(event_value[0]);			
 				}
 			},
-			delete_skill(event_value){
-				this.skills.forEach((elem, index) => {
-					if(elem.name == event_value[1])this.skills.splice(index,1);
-				});
-			},
-			add_new_skill(event){
-				var new_skill_value = parseInt(document.getElementsByClassName("new-skill-value")[0].value);
-				var new_skill_name = document.getElementsByClassName("new-skill-name")[0].value;
-				document.getElementsByClassName("new-skill-name")[0].value = "";
-				document.getElementsByClassName("new-skill-value")[0].value = "";
-
-				if(!new_skill_value && new_skill_value != 0)return;
-				if(!new_skill_name)return;
-
-				this.skills.forEach((elem, index) => {
-					if(elem.name == new_skill_name)this.skills.splice(index,1);
-				});				
-				this.skills.push({name:new_skill_name, value:new_skill_value, is_checked:false});
-			},
 			change_ability_status(event_value){
 				var ability_index = 0;
 				this.abilities.forEach((elem, index) => {
@@ -169,44 +150,60 @@
 					this.abilities[ability_index]["value"] = parseInt(event_value[0]);			
 				}
 			},
-			delete_ability(event_value){
-				this.abilities.forEach((elem, index) => {
-					if(elem.name == event_value[1])this.abilities.splice(index,1);
+			delete_card(event_values){
+				let card_type = event_values[2];
+				let cards;
+
+				switch(card_type){
+					case 'identity':
+						cards = this.identities;
+						break;
+					case 'ability':
+						cards = this.abilities;
+						break;
+					case 'skill':
+						cards = this.skills;
+						break;
+				}
+
+				cards.forEach((card, index) => {
+					if(card.name == event_values[1])cards.splice(index,1);
 				});
 			},
-			add_new_ability(event){
-				var new_ability_value = parseInt(document.getElementsByClassName("new-ability-value")[0].value);
-				var new_name = document.getElementsByClassName("new-ability-name")[0].value;
-				document.getElementsByClassName("new-ability-name")[0].value = "";
-				document.getElementsByClassName("new-ability-value")[0].value = "";
-				if(!new_ability_value && new_ability_value != 0)return;
-				if(!new_name)return;
+			change_card_status(event_values){
+				let card_type = event_values["card_type"];
+				let card_name = event_values["card_name"];
+				let values = event_values["card_values"];
+				let cards;
 
-				this.abilities.forEach((elem, index) => {
-					if(elem.name == new_name)this.abilities.splice(index,1);
-				});				
-				this.abilities.push({name:new_name, value:new_ability_value});
-			},
-			delete_card(event_value){
-				if(event_value[2] == "identity"){
-					this.identities.forEach((identity, index) => {
-						if(identity.name == event_value[1])this.identities.splice(index,1);
-					});
+				switch(card_type){
+					case 'identity':
+						cards = this.identities;
+
+						break;
+					case 'ability':
+						cards = this.abilities;
+						break;
 				}
-			},
-			change_card_status(event_value){
-				let index;
-				if(event_value[2] == "identity"){
-					this.identities.forEach((identity, index_) =>{
-						if(identity.name == event_value[1]){
-							index = index_;
-						}
-					});
 
-					this.identities[index]["value"] = event_value[0];
+				let index;
+				cards.forEach((card, index_) =>{
+					if(card.name == card_name){
+						index = index_;
+					}
+				});
+
+				switch(card_type){
+					case 'identity':
+						this.identities[index]["value"] = values[0];
+						break;
+					case 'ability':
+						this.abilities[index]["value"] = parseInt(values[0]);
+						break;
 				}
 			},
 			add_new_identity(event){
+				console.log(event);
 				let new_identity_value = document.getElementsByClassName("new-identity-value")[0].value;
 				let new_identity_name  = document.getElementsByClassName("new-identity-name")[0].value;
 				document.getElementsByClassName("new-identity-name")[0].value = "";
@@ -218,6 +215,34 @@
 					if(identity.name == new_identity_name)this.identities.splice(index, 1);
 				});
 				this.identities.push({name: new_identity_name, value: new_identity_value});
+			},
+			add_new_ability(event){
+				let new_ability_value = parseInt(document.getElementsByClassName("new-ability-value")[0].value);
+				let new_name = document.getElementsByClassName("new-ability-name")[0].value;
+				document.getElementsByClassName("new-ability-name")[0].value = "";
+				document.getElementsByClassName("new-ability-value")[0].value = "";
+
+				if(!new_ability_value && new_ability_value != 0)return;
+				if(!new_name)return;
+
+				this.abilities.forEach((elem, index) => {
+					if(elem.name == new_name)this.abilities.splice(index,1);
+				});				
+				this.abilities.push({name:new_name, value:new_ability_value});
+			},
+			add_new_skill(event){
+				let new_skill_value = parseInt(document.getElementsByClassName("new-skill-value")[0].value);
+				let new_skill_name = document.getElementsByClassName("new-skill-name")[0].value;
+				document.getElementsByClassName("new-skill-name")[0].value = "";
+				document.getElementsByClassName("new-skill-value")[0].value = "";
+
+				if(!new_skill_value && new_skill_value != 0)return;
+				if(!new_skill_name)return;
+
+				this.skills.forEach((elem, index) => {
+					if(elem.name == new_skill_name)this.skills.splice(index,1);
+				});				
+				this.skills.push({name:new_skill_name, value:new_skill_value, is_checked:false});
 			}
 		}
 	});
@@ -261,7 +286,7 @@
 				this.$emit('change-skill-status', [event.target.value, this.name]);
 			},
 			deleteSkill(event){
-				this.$emit('delete-skill', [event, this.name]);
+				this.$emit('delete-skill', [event, this.name, "skill"]);
 			}
 		}
 	});
@@ -295,10 +320,10 @@
 
 		methods: {
 			onChangeInput(event){
-				this.$emit('change-ability-status', [event.target.value, this.name]);
+				this.$emit('change-ability-status', {card_type: "ability", card_name: this.name, card_values: [event.target.value]});
 			},
 			deleteAbility(event){
-				this.$emit('delete-ability', [event, this.name]);
+				this.$emit('delete-ability', [event, this.name, "ability"]);
 			}
 		}
 	})
@@ -328,7 +353,7 @@
 
 		methods: {
 			updateCardStatus(event){
-				this.$emit('update-card-status', [event.target.value, this.name, "identity"]);
+				this.$emit('update-card-status', {card_type: "identity", card_name: this.name, card_values: [event.target.value]});
 			},
 			deleteCard(event){
 				this.$emit('delete-card', [event, this.name, "identity"]);
