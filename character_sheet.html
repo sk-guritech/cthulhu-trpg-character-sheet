@@ -77,8 +77,16 @@
 		},
 		methods:{
 			change_ability_status(event_value){
+				console.log(event_value);
+				var ability_index = 0;
+				this.abilities.forEach((elem, index) => {
+					if(elem.en_name == event_value[1]){
+						ability_index = index;
+					}
+				});		
+
 				if(event_value[0][0] == 'f' || event_value[0][0] == 't'){
-					this.abilities[event_value[1]]["is_checked"] = event_value[0] == "true" ? true : false;
+					this.abilities[ability_index]["is_checked"] = event_value[0] == "true" ? true : false;
 				}else{
 					if(parseInt(event_value[0]) > 99){
 						event_value[0] = 99;
@@ -87,7 +95,7 @@
 					}
 
 					//実パラメーター配列の更新
-					this.abilities[event_value[1]]["value"] = parseInt(event_value[0]);			
+					this.abilities[ability_index]["value"] = parseInt(event_value[0]);			
 				}
 			},
 			save_sheet(){
