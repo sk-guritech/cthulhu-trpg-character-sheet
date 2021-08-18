@@ -13,25 +13,38 @@
 	</head>
 	<body>
 		<div id="app" style="">
+			<div class="identities">
+				<div style="font-size: larger; border-bottom: 1px black solid; width:33.5em; margin: 2em; margin-bottom: -1em">Identity</div>
+				<div style="display: grid; grid-template-columns: 8.5em 8.5em 8.5em; margin:2em; margin-left: 3em;">
+					<identity_card v-for="item in identities" :name="item.name" :value="item.value" @update-card-status="change_card_status" @delete-card="delete_card"></identity_card>
+					<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 8em;">
+						<button v-on:click="add_new_identity" class="btn btn-secondary" style="padding: 0.1em; margin-left: -0.05em">+</button>
+						<input class="new-identity-name" type="text" style="width:3em;font-size: small;margin-left:0.4em;">
+						<input class="new-identity-value" type="text" style="margin-left: 0.2em;width: 3em">
+					</div>
+				</div>
+
+			</div>
+
 			<div class="abilities">
 				<div style="font-size: larger; border-bottom: 1px black solid; width:33.5em; margin: 2em; margin-bottom: -1em">Abilities</div>
 				<div style="display: grid; grid-template-columns: 13.5em 13.5em 13.5em; margin:2em; margin-left: 3em;">
-					<ability_card v-for="item in abilities" :ability_name="item.ability_name" :ability_value="item.value" @change-ability-status="change_ability_status" @delete-ability="delete_ability"/></ability_card>
+					<ability_card v-for="item in abilities" :name="item.name" :value="item.value" @change-ability-status="change_ability_status" @delete-ability="delete_ability"></ability_card>
 					<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 12em;">
 						<button v-on:click="add_new_ability" class="btn btn-secondary" style="padding: 0.1em; margin-left: -0.05em">+</button>
-						<input class="new-ability-name" type="text" name="" style="width:4.95em;font-size: small;margin-left:0.4em;">
-						<input class="new-ability-value" type="number" value=0 style="margin-left: 0.2em;width: 4em" min="0" max="99" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+						<input class="new-ability-name" type="text" style="width:4.95em;font-size: small;margin-left:0.4em;">
+						<input class="new-ability-value" type="number" value=0 style="margin-left: 0.2em;width: 4em" min="0" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
 					</div>
 				</div>			
 			</div>
 			<div class="skills">
 				<div style="font-size: larger; border-bottom: 1px black solid; width:33.5em; margin: 2em; margin-bottom: -1em">Skills</div>
 				<div style="display: grid; grid-template-columns: 13.5em 13.5em 13.5em; margin:2em; margin-left: 3em;">
-					<skill_card v-for="item in skills" :skill_name="item.skill_name" :skill_value="item.value" :is_checked="item.is_checked" @change-skill-status="change_skill_status" @delete-skill="delete_skill"/></skill_card>
+					<skill_card v-for="item in skills" :name="item.name" :value="item.value" :is_checked="item.is_checked" @change-skill-status="change_skill_status" @delete-skill="delete_skill"/></skill_card>
 
 					<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 12em;">
 						<button v-on:click="add_new_skill" class="btn btn-secondary" style="padding: 0.1em; margin-left: -0.05em">+</button>
-						<input class="new-skill-name" type="text" name="" style="width:6.1em;font-size: small;margin-left:0.4em;">
+						<input class="new-skill-name" type="text" style="width:6.1em;font-size: small;margin-left:0.4em;">
 						<input class="new-skill-value" type="number" value=0 style="margin-left: 0.2em;width: 3em" min="0" max="99" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
 					</div>
 				</div>
@@ -57,19 +70,27 @@
 	const app = Vue.createApp({
 		data() {
 			return {
-				skills:[
+				identities:[
+					{name:"名前"   ,value:""},
+					{name:"PC",value:""},
+					{name:"職業"   ,value:""},
+					{name:"年齢"   ,value:""},
+					{name:"性別"   ,value:""},
+					{name:"住所"   ,value:""},
+					{name:"出身"   ,value:""}
 				],
 				abilities:[
-					{ability_name:"STR",value:0},
-					{ability_name:"DEX",value:0},
-					{ability_name:"INT",value:0},
-					{ability_name:"CON",value:0},
-					{ability_name:"APP",value:0},
-					{ability_name:"POW",value:0},
-					{ability_name:"SIZ",value:0},
-					{ability_name:"EDU",value:0},
-					{ability_name:"MOV",value:0}
-				]
+					{name:"STR"   ,value:0},
+					{name:"DEX"   ,value:0},
+					{name:"INT"   ,value:0},
+					{name:"CON"   ,value:0},
+					{name:"APP"   ,value:0},
+					{name:"POW"   ,value:0},
+					{name:"SIZ"   ,value:0},
+					{name:"EDU"   ,value:0},
+					{name:"MOV"   ,value:0}
+				],
+				skills:[]
 			}
 		},
 		methods:{
@@ -92,7 +113,7 @@
 				console.log(event_value);
 				var skill_index = 0;
 				this.skills.forEach((elem, index) => {
-					if(elem.skill_name == event_value[1]){
+					if(elem.name == event_value[1]){
 						skill_index = index;
 					}
 				});		
@@ -112,26 +133,27 @@
 			},
 			delete_skill(event_value){
 				this.skills.forEach((elem, index) => {
-					if(elem.skill_name == event_value[1])this.skills.splice(index,1);
+					if(elem.name == event_value[1])this.skills.splice(index,1);
 				});
 			},
 			add_new_skill(event){
 				var new_skill_value = parseInt(document.getElementsByClassName("new-skill-value")[0].value);
 				var new_skill_name = document.getElementsByClassName("new-skill-name")[0].value;
 				document.getElementsByClassName("new-skill-name")[0].value = "";
+				document.getElementsByClassName("new-skill-value")[0].value = "";
+
 				if(!new_skill_value && new_skill_value != 0)return;
 				if(!new_skill_name)return;
 
 				this.skills.forEach((elem, index) => {
-					if(elem.skill_name == new_skill_name)this.skills.splice(index,1);
+					if(elem.name == new_skill_name)this.skills.splice(index,1);
 				});				
-				this.skills.push({skill_name:new_skill_name, value:new_skill_value, is_checked:false});
+				this.skills.push({name:new_skill_name, value:new_skill_value, is_checked:false});
 			},
 			change_ability_status(event_value){
-				console.log(event_value);
 				var ability_index = 0;
 				this.abilities.forEach((elem, index) => {
-					if(elem.ability_name == event_value[1]){
+					if(elem.name == event_value[1]){
 						ability_index = index;
 					}
 				});		
@@ -149,32 +171,65 @@
 			},
 			delete_ability(event_value){
 				this.abilities.forEach((elem, index) => {
-					if(elem.ability_name == event_value[1])this.abilities.splice(index,1);
+					if(elem.name == event_value[1])this.abilities.splice(index,1);
 				});
 			},
 			add_new_ability(event){
 				var new_ability_value = parseInt(document.getElementsByClassName("new-ability-value")[0].value);
-				var new_ability_name = document.getElementsByClassName("new-ability-name")[0].value;
+				var new_name = document.getElementsByClassName("new-ability-name")[0].value;
 				document.getElementsByClassName("new-ability-name")[0].value = "";
+				document.getElementsByClassName("new-ability-value")[0].value = "";
 				if(!new_ability_value && new_ability_value != 0)return;
-				if(!new_ability_name)return;
+				if(!new_name)return;
 
 				this.abilities.forEach((elem, index) => {
-					if(elem.ability_name == new_ability_name)this.abilities.splice(index,1);
+					if(elem.name == new_name)this.abilities.splice(index,1);
 				});				
-				this.abilities.push({ability_name:new_ability_name, value:new_ability_value});
+				this.abilities.push({name:new_name, value:new_ability_value});
+			},
+			delete_card(event_value){
+				if(event_value[2] == "identity"){
+					this.identities.forEach((identity, index) => {
+						if(identity.name == event_value[1])this.identities.splice(index,1);
+					});
+				}
+			},
+			change_card_status(event_value){
+				let index;
+				if(event_value[2] == "identity"){
+					this.identities.forEach((identity, index_) =>{
+						if(identity.name == event_value[1]){
+							index = index_;
+						}
+					});
+
+					this.identities[index]["value"] = event_value[0];
+				}
+			},
+			add_new_identity(event){
+				let new_identity_value = document.getElementsByClassName("new-identity-value")[0].value;
+				let new_identity_name  = document.getElementsByClassName("new-identity-name")[0].value;
+				document.getElementsByClassName("new-identity-name")[0].value = "";
+				document.getElementsByClassName("new-identity-value")[0].value = "";
+
+				if(!new_identity_name)return;
+
+				this.identities.forEach((identity, index) => {
+					if(identity.name == new_identity_name)this.identities.splice(index, 1);
+				});
+				this.identities.push({name: new_identity_name, value: new_identity_value});
 			}
 		}
 	});
 
 	app.component("skill_card",{
-		props: ['skill_name','skill_value'],
+		props: ['name','value'],
 		props: {
-			skill_name: {
+			name: {
 				type: String,
 				required: true
 			},
-			skill_value: {
+			value: {
 				type: Number,
 				required: true
 			},
@@ -189,36 +244,36 @@
 				<input v-else type="checkbox" value=true @change="onChangeInput">
 
 				<div style="margin-left: 0.4em; width: 8em; font-size:small" @click.right.ctrl="deleteSkill">
-					{{skill_name}}:
+					{{name}}:
 				</div>
 				<div style="margin-left: 0.4em">
-					<input :value="skill_value" type="number" @change="onChangeInput" style="width: 3em" min="0" max="99" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+					<input :value="value" type="number" @change="onChangeInput" style="width: 3em" min="0" max="99" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
 				</div>
 				<div style="font-size: x-small; margin-left: 0.6em; margin-top: 0.2em; width:2.5em;">
-						<div style="text-decoration: underline; text-underline-position: under;">{{Math.floor(skill_value/2)}}%</div>		
-						<div>{{Math.floor(skill_value/5)}}%</div>
+						<div style="text-decoration: underline; text-underline-position: under;">{{Math.floor(value/2)}}%</div>		
+						<div>{{Math.floor(value/5)}}%</div>
 				</div>
 			</div>
 		`,
 
 		methods: {
 			onChangeInput(event){
-				this.$emit('change-skill-status', [event.target.value, this.skill_name]);
+				this.$emit('change-skill-status', [event.target.value, this.name]);
 			},
 			deleteSkill(event){
-				this.$emit('delete-skill', [event, this.skill_name]);
+				this.$emit('delete-skill', [event, this.name]);
 			}
 		}
 	});
 
 	app.component("ability_card",{
-		props: ['ability_name', 'ability_value'],
+		props: ['name', 'value'],
 		props: {
-			ability_name: {
+			name: {
 				type: String,
 				required: true
 			},
-			ability_value: {
+			value: {
 				type: Number,
 				required: true
 			}
@@ -226,24 +281,57 @@
 		template: `
 			<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 12em;">
 				<div style="margin-left: 0.4em; width: 8em; font-size:small" @click.right.ctrl="deleteAbility">
-					{{ability_name}}:
+					{{name}}:
 				</div>
 				<div style="margin-left: 0.4em">
-					<input :value="ability_value" type="number" @change="onChangeInput" style="width: 4em" min="0" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+					<input :value="value" type="number" @change="onChangeInput" style="width: 4em" min="0" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
 				</div>
 				<div style="font-size: x-small; margin-left: 0.6em; margin-top: 0.2em; width:2.5em;">
-						<div style="text-decoration: underline; text-underline-position: under;">{{Math.floor(ability_value/2)}}%</div>		
-						<div>{{Math.floor(ability_value/5)}}%</div>
+						<div style="text-decoration: underline; text-underline-position: under;">{{Math.floor(value/2)}}%</div>		
+						<div>{{Math.floor(value/5)}}%</div>
 				</div>
 			</div>			
 		`,
 
 		methods: {
 			onChangeInput(event){
-				this.$emit('change-ability-status', [event.target.value, this.ability_name]);
+				this.$emit('change-ability-status', [event.target.value, this.name]);
 			},
 			deleteAbility(event){
-				this.$emit('delete-ability', [event, this.ability_name]);
+				this.$emit('delete-ability', [event, this.name]);
+			}
+		}
+	})
+
+	app.component("identity_card",{
+		props: ['name', 'value'],
+		props: {
+			name: {
+				type: String,
+				required: true
+			},
+			value: {
+				type: String,
+				required: true
+			}
+		},
+		template: `
+			<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 8em;">
+				<div style="margin-left: 0.4em; width: 4.5em; font-size:small" @click.right.ctrl="deleteCard">
+					{{name}}:
+				</div>
+				<div style="margin-left: 0.4em">
+					<input :value="value" type="text" @change="updateCardStatus" style="width: 4em">
+				</div>
+			</div>			
+		`,
+
+		methods: {
+			updateCardStatus(event){
+				this.$emit('update-card-status', [event.target.value, this.name, "identity"]);
+			},
+			deleteCard(event){
+				this.$emit('delete-card', [event, this.name, "identity"]);
 			}
 		}
 	})
