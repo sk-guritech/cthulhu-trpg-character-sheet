@@ -40,7 +40,7 @@
 			<div class="skills">
 				<div style="font-size: larger; border-bottom: 1px black solid; width:33.5em; margin: 2em; margin-bottom: -1em">Skills</div>
 				<div style="display: grid; grid-template-columns: 13.5em 13.5em 13.5em; margin:2em; margin-left: 3em;">
-					<skill_card v-for="item in skills" :name="item.name" :value="item.value" :is_checked="item.is_checked" @change-skill-status="change_skill_status" @delete-skill="delete_card"/></skill_card>
+					<skill_card v-for="item in skills" :name="item.name" :value="item.value" :is_checked="item.is_checked" @change-skill-status="change_card_status" @delete-skill="delete_card"/></skill_card>
 
 					<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 12em;">
 						<button v-on:click="add_new_skill" class="btn btn-secondary" style="padding: 0.1em; margin-left: -0.05em">+</button>
@@ -109,47 +109,6 @@
 					this.skills = json;
 				};
 			},
-			change_skill_status(event_value){
-				console.log(event_value);
-				var skill_index = 0;
-				this.skills.forEach((elem, index) => {
-					if(elem.name == event_value[1]){
-						skill_index = index;
-					}
-				});		
-
-				if(event_value[0][0] == 'f' || event_value[0][0] == 't'){
-					this.skills[skill_index]["is_checked"] = event_value[0] == "true" ? true : false;
-				}else{
-					if(parseInt(event_value[0]) > 99){
-						event_value[0] = 99;
-					}else if(parseInt(event_value[0] < 0)){
-						event_value[0] = 0;
-					}
-
-					//実パラメーター配列の更新
-					this.skills[skill_index]["value"] = parseInt(event_value[0]);			
-				}
-			},
-			change_ability_status(event_value){
-				var ability_index = 0;
-				this.abilities.forEach((elem, index) => {
-					if(elem.name == event_value[1]){
-						ability_index = index;
-					}
-				});		
-
-				if(event_value[0][0] == 'f' || event_value[0][0] == 't'){
-					this.abilities[ability_index]["is_checked"] = event_value[0] == "true" ? true : false;
-				}else{
-					if(parseInt(event_value[0] < 0)){
-						event_value[0] = 0;
-					}
-
-					//実パラメーター配列の更新
-					this.abilities[ability_index]["value"] = parseInt(event_value[0]);			
-				}
-			},
 			delete_card(event_values){
 				let card_type = event_values[2];
 				let cards;
@@ -173,34 +132,51 @@
 			change_card_status(event_values){
 				let card_type = event_values["card_type"];
 				let card_name = event_values["card_name"];
-				let values = event_values["card_values"];
+				let value = event_values["value"];
 				let cards;
+
+				let index;
+				let change_method;
 
 				switch(card_type){
 					case 'identity':
 						cards = this.identities;
-
+						change_method = function(cards, index, value){
+							cards[index]["value"] = value;
+						};
 						break;
 					case 'ability':
 						cards = this.abilities;
+						change_method = function(cards, index, value){
+							cards[index]["value"] = parseInt(value);
+						};
+						break;
+					case 'skill':
+						cards = this.skills;
+						change_method = function(cards, index, value){
+							if(value[0] == 'f' || value[0] == 't'){
+								cards[index]["is_checked"] = value == "true" ? true : false;
+							}else{
+								value = parseInt(value);
+								if(value > 99){
+									value = 99;
+								}else if(value < 0){
+									value = 0;
+								}
+								cards[index]["value"] = value;
+							}
+
+						};
 						break;
 				}
 
-				let index;
 				cards.forEach((card, index_) =>{
 					if(card.name == card_name){
 						index = index_;
 					}
 				});
 
-				switch(card_type){
-					case 'identity':
-						this.identities[index]["value"] = values[0];
-						break;
-					case 'ability':
-						this.abilities[index]["value"] = parseInt(values[0]);
-						break;
-				}
+				change_method(cards, index, value);
 			},
 			add_new_identity(event){
 				console.log(event);
@@ -283,7 +259,7 @@
 
 		methods: {
 			onChangeInput(event){
-				this.$emit('change-skill-status', [event.target.value, this.name]);
+				this.$emit('change-skill-status', {card_type: "skill", card_name: this.name, value: event.target.value});
 			},
 			deleteSkill(event){
 				this.$emit('delete-skill', [event, this.name, "skill"]);
@@ -320,7 +296,7 @@
 
 		methods: {
 			onChangeInput(event){
-				this.$emit('change-ability-status', {card_type: "ability", card_name: this.name, card_values: [event.target.value]});
+				this.$emit('change-ability-status', {card_type: "ability", card_name: this.name, value: event.target.value});
 			},
 			deleteAbility(event){
 				this.$emit('delete-ability', [event, this.name, "ability"]);
@@ -353,7 +329,7 @@
 
 		methods: {
 			updateCardStatus(event){
-				this.$emit('update-card-status', {card_type: "identity", card_name: this.name, card_values: [event.target.value]});
+				this.$emit('update-card-status', {card_type: "identity", card_name: this.name, value: event.target.value});
 			},
 			deleteCard(event){
 				this.$emit('delete-card', [event, this.name, "identity"]);
