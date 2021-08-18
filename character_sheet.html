@@ -96,6 +96,7 @@
 			add_new_skill(event){
 				var new_skill_value = parseInt(document.getElementsByClassName("new-skill-value")[0].value);
 				var new_skill_name = document.getElementsByClassName("new-skill-name")[0].value;
+				document.getElementsByClassName("new-skill-name")[0].value = "";
 				if(!new_skill_value && new_skill_value != 0)return;
 				if(!new_skill_name)return;
 
