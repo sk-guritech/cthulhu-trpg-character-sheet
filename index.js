@@ -22,7 +22,7 @@ const app = Vue.createApp({
 			json_data["weapons"] = this.weapons;
 
 			var blob = new Blob(
-				[JSON.stringify(json_data)], {type: "text/plain;charset=utf-8"});
+				[JSON.stringify(json_data, null, "    ")], {type: "text/plain;charset=utf-8"});
 			saveAs(blob, "sheet.json");
 		},
 		load_sheet(event){
