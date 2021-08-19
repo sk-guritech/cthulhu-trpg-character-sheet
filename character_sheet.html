@@ -19,7 +19,7 @@
 						<div style="font-size: larger; border-bottom: 1px black solid; width:33.5em; margin: 2em; margin-top: 0.5em; margin-bottom: -1em">Identity</div>
 						<div style="display: grid; grid-template-columns: 8.5em 8.5em 8.5em; margin:2em; margin-left: 3em;">
 							<identity_card v-for="item in identities" :name="item.name" :value="item.value" @update-card-status="change_card_status" @delete-card="delete_card"></identity_card>
-							<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 8em;">
+							<div v-show="show_add_cards" style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 8em;">
 								<button v-on:click="add_new_card" id="add-new-identity" class="btn btn-secondary" style="padding: 0.1em; margin-left: -0.05em">+</button>
 								<input class="new-identity-name" type="text" style="width:3em;font-size: small;margin-left:0.4em;">
 								<input class="new-identity-value" type="text" style="margin-left: 0.2em;width: 3em">
@@ -31,7 +31,7 @@
 						<div style="font-size: larger; border-bottom: 1px black solid; width:33.5em; margin: 2em; margin-top: -1em; margin-bottom: -1em">Statuses</div>
 						<div style="display: grid; grid-template-columns: 8.5em 8.5em 8.5em; margin:2em; margin-left: 3em;">
 							<status_card v-for="item in statuses" :name="item.name" :value="item.value" @change-status-status="change_card_status" @delete-card="delete_card"></status_card>
-							<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 8em;">
+							<div v-show="show_add_cards" style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 8em;">
 								<button v-on:click="add_new_card" id="add-new-status" class="btn btn-secondary" style="padding: 0.1em; margin-left: -0.05em">+</button>
 								<input class="new-status-name" type="text" style="width:3em;font-size: small;margin-left:0.4em;">
 								<input class="new-status-value" type="number" value=0 style="margin-left: 0.2em;width: 3em" min="0" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
@@ -43,7 +43,7 @@
 						<div style="font-size: larger; border-bottom: 1px black solid; width:33.5em; margin: 2em; margin-top: -1em; margin-bottom: -1em">Abilities</div>
 						<div style="display: grid; grid-template-columns: 13.5em 13.5em 13.5em; margin:2em; margin-left: 3em;">
 							<ability_card v-for="item in abilities" :name="item.name" :value="item.value" @change-ability-status="change_card_status" @delete-ability="delete_card"></ability_card>
-							<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 12em;">
+							<div v-show="show_add_cards" style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 12em;">
 								<button v-on:click="add_new_card" id="add-new-ability" class="btn btn-secondary" style="padding: 0.1em; margin-left: -0.05em">+</button>
 								<input class="new-ability-name" type="text" style="width:4.95em;font-size: small;margin-left:0.4em;">
 								<input class="new-ability-value" type="number" value=0 style="margin-left: 0.2em;width: 4em" min="0" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
@@ -55,7 +55,7 @@
 						<div style="display: grid; grid-template-columns: 13.5em 13.5em 13.5em; margin:2em; margin-left: 3em;">
 							<skill_card v-for="item in skills" :name="item.name" :value="item.value" :is_checked="item.is_checked" @change-skill-status="change_card_status" @delete-skill="delete_card"/></skill_card>
 
-							<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 12em;">
+							<div v-show="show_add_cards" style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 12em;">
 								<button v-on:click="add_new_card" id="add-new-skill" class="btn btn-secondary" style="padding: 0.1em; margin-left: -0.05em">+</button>
 								<input class="new-skill-name" type="text" style="width:6.1em;font-size: small;margin-left:0.4em;">
 								<input class="new-skill-value" type="number" value=0 style="margin-left: 0.2em;width: 3em" min="0" max="99" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
@@ -65,10 +65,10 @@
 				</div>
 				<div style="margin-right: -3em">
 					<div class="combat">
-						<div style="font-size: larger; border-bottom: 1px black solid; width:22.5em; margin: 2em; margin-bottom: -1em; margin-top: 0.5em">Combat</div>
-						<div style="display: grid; grid-template-columns: 8.5em 8.5em 8.5em; margin:2em; margin-left: 3em;">
-							<identity_card v-for="item in combats" :name="item.name" :value="item.value" @update-card-status="change_card_status" @delete-card="delete_card"></identity_card>
-							<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 8em;">
+						<div style="font-size: larger; border-bottom: 1px black solid; width:28.5em; margin: 2em; margin-bottom: -1em; margin-top: 0.5em">Combat</div>
+						<div style="display: grid; grid-template-columns: 8.5em 8.5em 8.5em; margin:2em; margin-left: 3em; margin-bottom: 0.5em">
+							<combat_card v-for="item in combats" :name="item.name" :value="item.value" @update-card-status="change_card_status" @delete-card="delete_card"></combat_card>
+							<div v-show="show_add_cards" style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 8em;">
 								<button v-on:click="add_new_card" id="add-new-combat" class="btn btn-secondary" style="padding: 0.1em; margin-left: -0.05em">+</button>
 								<input class="new-combat-name" type="text" style="width:3em;font-size: small;margin-left:0.4em;">
 								<input class="new-combat-value" type="text" style="margin-left: 0.2em;width: 3em">
@@ -77,31 +77,59 @@
 					</div>
 
 					<div class="arms">
-						<div style="font-size: larger; border-bottom: 1px black solid; width:22.5em; margin: 2em; margin-bottom: -1em">Arms</div>
+						<div style="font-size: larger; border-bottom: 1px black solid; width:28.5em; margin: 2em; margin-bottom: 0.5em; margin-top: 0.5em">Arms</div>
+						<div style="font-size: smaller; margin-left: 8em">
+							<label style="">武器</label>
+							<label style="margin-left: 2.8em">Reg.</label>
+							<label style="margin-left: 1.3em">Hard</label>
+							<label style="margin-left: 1.6em">Ex</label>
+							<label style="margin-left: 3.2em">ダメージ</label>
+							<label style="margin-left: 2.3em">射程</label>
+							<label style="margin-left: 1.3em">回数</label>
+							<label style="margin-left: 0.9em">装弾数</label>
+							<label style="margin-left: 0.9em">故障</label>
+						<!--武器　　/REG/HARD/EXT/DMG/射程/攻撃回数/装弾数/故障-->
+						</div>
+						<div style="display: grid; grid-template-columns: 8.5em 8.5em 8.5em; margin:2em; margin-left: 3em; margin-bottom: 0.25em; margin-top: 0.25em">
+							<identity_card v-for="item in combats" :name="item.name" :value="item.value" @update-card-status="change_card_status" @delete-card="delete_card"></identity_card>
+							<div v-show="show_add_cards" style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 32em;">
+								<button v-on:click="add_new_card" id="add-new-combat" class="btn btn-secondary" style="padding: 0.1em; margin-left: -0.05em">+</button>
+
+								<input class="new-combat-name" type="text" style="width:5em;font-size: medium;margin-left:0.4em;">
+								<input class="new-combat-value" type="number" style="margin-left: 0.3em;width: 2.5em">
+								<input class="new-combat-value" type="number" style="margin-left: 0.3em;width: 2.5em">
+								<input class="new-combat-value" type="number" style="margin-left: 0.3em;width: 2.5em">
+								<input class="new-combat-value" type="text" style="margin-left: 0.3em;width: 5em">
+								<input class="new-combat-value" type="number" style="margin-left: 0.3em;width: 2.5em">
+								<input class="new-combat-value" type="number" style="margin-left: 0.3em;width: 2.5em">
+								<input class="new-combat-value" type="number" style="margin-left: 0.3em;width: 2.5em">
+								<input class="new-combat-value" type="number" style="margin-left: 0.3em;width: 2.5em">
+							</div>
+						</div>							
 					</div>
 
 					<div class="backstory">
-						<div style="font-size: larger; border-bottom: 1px black solid; width:22.5em; margin: 2em; margin-bottom: -1em">Back Story</div>
-						<div style="margin: 2em; margin-left: 3em;">
-							<textarea rows="6" style="width: 26em"></textarea>
+						<div style="font-size: larger; border-bottom: 1px black solid; width:28.5em; margin: 2em; margin-bottom: -0.8em; margin-top: 0.5em">Back Story</div>
+						<div style="margin: 2em; margin-left: 3em; margin-bottom: 0.5em">
+							<textarea rows="6" style="width: 33em"></textarea>
 						</div>
 					</div>
 
 					<div class="equipments_and_items">
-						<div style="font-size: larger; border-bottom: 1px black solid; width:22.5em; margin: 2em; margin-bottom: -1em; margin-top: 1em">Equipments & Items</div>
-						<div style="margin: 2em; margin-left: 3em;">
-							<textarea rows="6" style="width: 26em"></textarea>
+						<div style="font-size: larger; border-bottom: 1px black solid; width:28.5em; margin: 2em; margin-bottom: -0.8em; margin-top: 0.5em">Equipments & Items</div>
+						<div style="margin: 2em; margin-left: 3em; margin-bottom: 0.5em">
+							<textarea rows="6" style="width: 33em"></textarea>
 						</div>
 					</div>
 
 					<div class="income_and_assets">
-						<div style="font-size: larger; border-bottom: 1px black solid; width:22.5em; margin: 2em; margin-bottom: -1em">Income & Assets</div>
-						<div style="margin: 2em; margin-left: 3em;">
-							<textarea rows="6" style="width: 26em"></textarea>
+						<div style="font-size: larger; border-bottom: 1px black solid; width:28.5em; margin: 2em; margin-bottom: -0.8em; margin-top: 0.5em">Income & Assets</div>
+						<div style="margin: 2em; margin-left: 3em; margin-bottom: 0.5em">
+							<textarea rows="6" style="width: 33em"></textarea>
 						</div>
 					</div>
 
-					<div style="margin: 2em">
+					<div style="margin: 2em; margin-top: 1em">
 						<a v-on:click="save_sheet" style="margin: 0.5em" class="btn btn-success">save</a>
 						<label>
 							<span  class="btn btn-primary">
@@ -109,7 +137,10 @@
 								<input type="file" @change="load_sheet" style="display: none">
 							</span>
 						</label>
-					</div>					
+
+						<button v-if="!show_add_cards" v-on:click="show_add_cards = !show_add_cards" style="margin: 0.5em" class="btn btn-primary">show new card</button>
+						<button v-else v-on:click="show_add_cards = !show_add_cards" style="margin: 0.5em" class="btn btn-primary">hide new card</button>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -6,7 +6,8 @@ const app = Vue.createApp({
 			statuses:[],
 			abilities:[],
 			skills:[],
-			combats:[]
+			combats:[],
+			show_add_cards: true
 		}
 	},
 	methods:{
@@ -45,6 +46,9 @@ const app = Vue.createApp({
 					break;
 				case 'skill':
 					cards = this.skills;
+					break;
+				case 'combat':
+					cards = this.combats;
 					break;
 			}
 
