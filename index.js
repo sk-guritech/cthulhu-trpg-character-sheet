@@ -3,8 +3,10 @@ const app = Vue.createApp({
 	data() {
 		return {
 			identities:[],
+			statuses:[],
 			abilities:[],
-			skills:[]
+			skills:[],
+			combats:[]
 		}
 	},
 	methods:{
@@ -21,8 +23,10 @@ const app = Vue.createApp({
 			reader.onload = () => {
 				var json = JSON.parse(reader.result);
 				this.identities = json["identities"];
+				this.statuses = json["statuses"];
 				this.abilities = json["abilities"];
 				this.skills = json["skills"];
+				this.combats = json["combats"];
 			};
 		},
 		delete_card(event_values){
@@ -32,6 +36,9 @@ const app = Vue.createApp({
 			switch(card_type){
 				case 'identity':
 					cards = this.identities;
+					break;
+				case 'status':
+					cards = this.statuses;
 					break;
 				case 'ability':
 					cards = this.abilities;
@@ -61,12 +68,21 @@ const app = Vue.createApp({
 						cards[index]["value"] = value;
 					};
 					break;
+
+				case 'status':
+					cards = this.statuses;
+					change_method = function(cards, index, value){
+						cards[index]["value"] = parseInt(value);
+					};
+					break;
+
 				case 'ability':
 					cards = this.abilities;
 					change_method = function(cards, index, value){
 						cards[index]["value"] = parseInt(value);
 					};
 					break;
+
 				case 'skill':
 					cards = this.skills;
 					change_method = function(cards, index, value){
@@ -113,6 +129,21 @@ const app = Vue.createApp({
 						cards.push({name: new_card_name, value: new_card_value});
 					};
 					break;
+
+				case 'status':
+					cards = this.statuses;
+					value_check_method = function(name, value){
+						if(name == null || value == null)return false;
+						if(!name)return false;
+						value = parseInt(value);
+						if(!value && value != 0)return false;
+						return true;
+					};
+					card_push_method = function(cards, name, value){
+						cards.push({name: new_card_name, value: parseInt(new_card_value)});
+					};
+					break;
+
 				case 'ability':
 					cards = this.abilities;
 					value_check_method = function(name, value){
@@ -126,6 +157,7 @@ const app = Vue.createApp({
 						cards.push({name: new_card_name, value: parseInt(new_card_value)});
 					};
 					break;
+
 				case 'skill':
 					cards = this.skills;
 					value_check_method = function(name, value){
@@ -143,7 +175,12 @@ const app = Vue.createApp({
 			new_card_name  = document.getElementsByClassName("new-" + new_card_type + "-name")[0].value;
 			new_card_value = document.getElementsByClassName("new-" + new_card_type + "-value")[0].value;
 			document.getElementsByClassName("new-" + new_card_type + "-name")[0].value = null;
-			document.getElementsByClassName("new-" + new_card_type + "-value")[0].value = null;
+			if(new_card_type == "identity"){
+				document.getElementsByClassName("new-" + new_card_type + "-value")[0].value = null;
+			}else{
+				document.getElementsByClassName("new-" + new_card_type + "-value")[0].value = 0;
+			}
+
 			if(!value_check_method(new_card_name, new_card_value))return;
 
 			cards.forEach((card, index) => {
@@ -154,6 +191,109 @@ const app = Vue.createApp({
 		}
 	}
 });
+
+app.component("identity_card",{
+	props: ['name', 'value'],
+	props: {
+		name: {
+			type: String,
+			required: true
+		},
+		value: {
+			type: String,
+			required: true
+		}
+	},
+	template: `
+		<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 8em;">
+			<div style="margin-left: 0.4em; width: 4.5em; font-size:small" @click.right.ctrl="deleteCard">
+				{{name}}:
+			</div>
+			<div style="margin-left: 0.4em">
+				<input :value="value" type="text" @change="updateCardStatus" style="width: 4em">
+			</div>
+		</div>			
+	`,
+
+	methods: {
+		updateCardStatus(event){
+			this.$emit('update-card-status', {card_type: "identity", card_name: this.name, value: event.target.value});
+		},
+		deleteCard(event){
+			this.$emit('delete-card', [event, this.name, "identity"]);
+		}
+	}
+})
+
+app.component("status_card",{
+	props: ['name', 'value'],
+	props: {
+		name: {
+			type: String,
+			required: true
+		},
+		value: {
+			type: Number,
+			required: true
+		}
+	},
+	template: `
+		<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 8em;">
+			<div style="margin-left: 0.4em; width: 4.5em; font-size:small" @click.right.ctrl="deleteCard">
+				{{name}}:
+			</div>
+			<div style="margin-left: 0.4em">
+				<input :value="value" type="number" @change="updateCardStatus" style="width: 4em">
+			</div>
+		</div>			
+	`,
+
+	methods: {
+		updateCardStatus(event){
+			this.$emit('change-status-status', {card_type: "status", card_name: this.name, value: event.target.value});
+		},
+		deleteCard(event){
+			this.$emit('delete-card', [event, this.name, "status"]);
+		}
+	}
+})
+
+app.component("ability_card",{
+	props: ['name', 'value'],
+	props: {
+		name: {
+			type: String,
+			required: true
+		},
+		value: {
+			type: Number,
+			required: true
+		}
+	},
+	template: `
+		<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 12em;">
+			<div style="margin-left: 0.4em; width: 8em; font-size:small" @click.right.ctrl="deleteAbility">
+				{{name}}:
+			</div>
+			<div style="margin-left: 0.4em">
+				<input :value="value" type="number" @change="onChangeInput" style="width: 4em" min="0" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+			</div>
+			<div style="font-size: x-small; margin-left: 0.6em; margin-top: 0.2em; width:2.5em;">
+					<div style="text-decoration: underline; text-underline-position: under;">{{Math.floor(value/2)}}%</div>		
+					<div>{{Math.floor(value/5)}}%</div>
+			</div>
+		</div>			
+	`,
+
+	methods: {
+		onChangeInput(event){
+			this.$emit('change-ability-status', {card_type: "ability", card_name: this.name, value: event.target.value});
+		},
+		deleteAbility(event){
+			this.$emit('delete-ability', [event, this.name, "ability"]);
+		}
+	}
+})
 
 app.component("skill_card",{
 	props: ['name','value'],
@@ -199,44 +339,7 @@ app.component("skill_card",{
 	}
 });
 
-app.component("ability_card",{
-	props: ['name', 'value'],
-	props: {
-		name: {
-			type: String,
-			required: true
-		},
-		value: {
-			type: Number,
-			required: true
-		}
-	},
-	template: `
-		<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 12em;">
-			<div style="margin-left: 0.4em; width: 8em; font-size:small" @click.right.ctrl="deleteAbility">
-				{{name}}:
-			</div>
-			<div style="margin-left: 0.4em">
-				<input :value="value" type="number" @change="onChangeInput" style="width: 4em" min="0" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
-			</div>
-			<div style="font-size: x-small; margin-left: 0.6em; margin-top: 0.2em; width:2.5em;">
-					<div style="text-decoration: underline; text-underline-position: under;">{{Math.floor(value/2)}}%</div>		
-					<div>{{Math.floor(value/5)}}%</div>
-			</div>
-		</div>			
-	`,
-
-	methods: {
-		onChangeInput(event){
-			this.$emit('change-ability-status', {card_type: "ability", card_name: this.name, value: event.target.value});
-		},
-		deleteAbility(event){
-			this.$emit('delete-ability', [event, this.name, "ability"]);
-		}
-	}
-})
-
-app.component("identity_card",{
+app.component("combat_card",{
 	props: ['name', 'value'],
 	props: {
 		name: {
@@ -261,10 +364,10 @@ app.component("identity_card",{
 
 	methods: {
 		updateCardStatus(event){
-			this.$emit('update-card-status', {card_type: "identity", card_name: this.name, value: event.target.value});
+			this.$emit('update-card-status', {card_type: "combat", card_name: this.name, value: event.target.value});
 		},
 		deleteCard(event){
-			this.$emit('delete-card', [event, this.name, "identity"]);
+			this.$emit('delete-card', [event, this.name, "combat"]);
 		}
 	}
 })

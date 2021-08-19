@@ -14,9 +14,9 @@
 	<body>
 		<div id="app" style="">
 			<div style="display: flex">
-				<div>
+				<div style="margin-right: -3em">
 					<div class="identities">
-						<div style="font-size: larger; border-bottom: 1px black solid; width:33.5em; margin: 2em; margin-bottom: -1em">Identity</div>
+						<div style="font-size: larger; border-bottom: 1px black solid; width:33.5em; margin: 2em; margin-top: 0.5em; margin-bottom: -1em">Identity</div>
 						<div style="display: grid; grid-template-columns: 8.5em 8.5em 8.5em; margin:2em; margin-left: 3em;">
 							<identity_card v-for="item in identities" :name="item.name" :value="item.value" @update-card-status="change_card_status" @delete-card="delete_card"></identity_card>
 							<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 8em;">
@@ -25,13 +25,22 @@
 								<input class="new-identity-value" type="text" style="margin-left: 0.2em;width: 3em">
 							</div>
 						</div>
-
 					</div>
 
-					<div style="font-size: larger; border-bottom: 1px black solid; width:33.5em; margin: 2em; margin-bottom: -1em">Status</div>
+					<div class="statuses">
+						<div style="font-size: larger; border-bottom: 1px black solid; width:33.5em; margin: 2em; margin-top: -1em; margin-bottom: -1em">Statuses</div>
+						<div style="display: grid; grid-template-columns: 8.5em 8.5em 8.5em; margin:2em; margin-left: 3em;">
+							<status_card v-for="item in statuses" :name="item.name" :value="item.value" @change-status-status="change_card_status" @delete-card="delete_card"></status_card>
+							<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 8em;">
+								<button v-on:click="add_new_card" id="add-new-status" class="btn btn-secondary" style="padding: 0.1em; margin-left: -0.05em">+</button>
+								<input class="new-status-name" type="text" style="width:3em;font-size: small;margin-left:0.4em;">
+								<input class="new-status-value" type="number" value=0 style="margin-left: 0.2em;width: 3em" min="0" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+							</div>
+						</div>
+					</div>
 
 					<div class="abilities">
-						<div style="font-size: larger; border-bottom: 1px black solid; width:33.5em; margin: 2em; margin-bottom: -1em">Abilities</div>
+						<div style="font-size: larger; border-bottom: 1px black solid; width:33.5em; margin: 2em; margin-top: -1em; margin-bottom: -1em">Abilities</div>
 						<div style="display: grid; grid-template-columns: 13.5em 13.5em 13.5em; margin:2em; margin-left: 3em;">
 							<ability_card v-for="item in abilities" :name="item.name" :value="item.value" @change-ability-status="change_card_status" @delete-ability="delete_card"></ability_card>
 							<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 12em;">
@@ -42,7 +51,7 @@
 						</div>			
 					</div>
 					<div class="skills">
-						<div style="font-size: larger; border-bottom: 1px black solid; width:33.5em; margin: 2em; margin-bottom: -1em">Skills</div>
+						<div style="font-size: larger; border-bottom: 1px black solid; width:33.5em; margin: 2em; margin-top: -1em; margin-bottom: -1em">Skills</div>
 						<div style="display: grid; grid-template-columns: 13.5em 13.5em 13.5em; margin:2em; margin-left: 3em;">
 							<skill_card v-for="item in skills" :name="item.name" :value="item.value" :is_checked="item.is_checked" @change-skill-status="change_card_status" @delete-skill="delete_card"/></skill_card>
 
@@ -54,8 +63,43 @@
 						</div>
 					</div>
 				</div>
-				<div>
-					<div style="font-size: larger; border-bottom: 1px black solid; width:33.5em; margin: 2em; margin-bottom: -1em">Combat</div>
+				<div style="margin-right: -3em">
+					<div class="combat">
+						<div style="font-size: larger; border-bottom: 1px black solid; width:22.5em; margin: 2em; margin-bottom: -1em; margin-top: 0.5em">Combat</div>
+						<div style="display: grid; grid-template-columns: 8.5em 8.5em 8.5em; margin:2em; margin-left: 3em;">
+							<identity_card v-for="item in combats" :name="item.name" :value="item.value" @update-card-status="change_card_status" @delete-card="delete_card"></identity_card>
+							<div style="display: flex;align-items: center; padding: 0.5em; padding-top:0.1em; padding-bottom: 0.1em; border-bottom: 1px black solid ; width: 8em;">
+								<button v-on:click="add_new_card" id="add-new-combat" class="btn btn-secondary" style="padding: 0.1em; margin-left: -0.05em">+</button>
+								<input class="new-combat-name" type="text" style="width:3em;font-size: small;margin-left:0.4em;">
+								<input class="new-combat-value" type="text" style="margin-left: 0.2em;width: 3em">
+							</div>
+						</div>
+					</div>
+
+					<div class="arms">
+						<div style="font-size: larger; border-bottom: 1px black solid; width:22.5em; margin: 2em; margin-bottom: -1em">Arms</div>
+					</div>
+
+					<div class="backstory">
+						<div style="font-size: larger; border-bottom: 1px black solid; width:22.5em; margin: 2em; margin-bottom: -1em">Back Story</div>
+						<div style="margin: 2em; margin-left: 3em;">
+							<textarea rows="6" style="width: 26em"></textarea>
+						</div>
+					</div>
+
+					<div class="equipments_and_items">
+						<div style="font-size: larger; border-bottom: 1px black solid; width:22.5em; margin: 2em; margin-bottom: -1em; margin-top: 1em">Equipments & Items</div>
+						<div style="margin: 2em; margin-left: 3em;">
+							<textarea rows="6" style="width: 26em"></textarea>
+						</div>
+					</div>
+
+					<div class="income_and_assets">
+						<div style="font-size: larger; border-bottom: 1px black solid; width:22.5em; margin: 2em; margin-bottom: -1em">Income & Assets</div>
+						<div style="margin: 2em; margin-left: 3em;">
+							<textarea rows="6" style="width: 26em"></textarea>
+						</div>
+					</div>
 
 					<div style="margin: 2em">
 						<a v-on:click="save_sheet" style="margin: 0.5em" class="btn btn-success">save</a>
@@ -65,7 +109,7 @@
 								<input type="file" @change="load_sheet" style="display: none">
 							</span>
 						</label>
-					</div>
+					</div>					
 				</div>
 			</div>
 		</div>

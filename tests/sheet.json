@@ -29,6 +29,25 @@
 			"value": ""
 		}
 	],
+	"statuses": [
+		{
+			"name": "HP",
+			"value": 0
+		},
+		{
+			"name": "MP",
+			"value": 0
+		},
+		{
+			"name": "SAN",
+			"value": 0
+		},
+		{
+			"name": "幸運",
+			"value": 0
+		}
+
+	],
 	"abilities": [
 		{
 			"name": "STR",
@@ -207,6 +226,39 @@
 			"name": "水泳",
 			"value": 20,
 			"is_checked": false
+		}
+	],
+	"combats":[
+		{
+			"name": "DB",
+			"value": ""
+		},
+		{
+			"name": "BLD",
+			"value": ""
+		},
+		{
+			"name": "回避",
+			"value": ""
+		}
+	]
+	,
+	"backstories":[
+		{
+			"name": "memo",
+			"value": ""
+		}
+	],
+	"equipments_and_items":[
+		{
+			"name": "memo",
+			"value": ""
+		}
+	],
+	"income_and_assets":[
+		{
+			"name": "memo",
+			"value": ""
 		}
 	]
 }
