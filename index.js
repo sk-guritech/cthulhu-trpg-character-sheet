@@ -68,6 +68,7 @@ const app = Vue.createApp({
 			cards.forEach((card, index) => {
 				if(card.name == event_values[1])cards.splice(index,1);
 			});
+			this.character_sheet_update_callback(card_type);
 		},
 		change_card_status(event_values){
 			let card_type = event_values["card_type"];
@@ -135,6 +136,8 @@ const app = Vue.createApp({
 				}
 			});
 			change_method(cards, index, value);
+
+			this.character_sheet_update_callback(card_type);
 		},
 		add_new_card(event){
 			let new_card_type = event.target.id.split("-")[2];
@@ -240,6 +243,12 @@ const app = Vue.createApp({
 			});
 
 			card_push_method(cards, new_card_name, new_card_value);
+
+			this.character_sheet_update_callback(new_card_type);
+		},
+		character_sheet_update_callback(updated_card_type){
+			//この部分にAPI叩かせたりする
+			console.log(updated_card_type);
 		}
 	}
 });
