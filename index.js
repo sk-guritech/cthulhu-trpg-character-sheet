@@ -2,26 +2,8 @@ document.oncontextmenu = function () {return false;}
 const app = Vue.createApp({
 	data() {
 		return {
-			identities:[
-				{name:"名前"   ,value:""},
-				{name:"PC",value:""},
-				{name:"職業"   ,value:""},
-				{name:"年齢"   ,value:""},
-				{name:"性別"   ,value:""},
-				{name:"住所"   ,value:""},
-				{name:"出身"   ,value:""}
-			],
-			abilities:[
-				{name:"STR"   ,value:0},
-				{name:"DEX"   ,value:0},
-				{name:"INT"   ,value:0},
-				{name:"CON"   ,value:0},
-				{name:"APP"   ,value:0},
-				{name:"POW"   ,value:0},
-				{name:"SIZ"   ,value:0},
-				{name:"EDU"   ,value:0},
-				{name:"MOV"   ,value:0}
-			],
+			identities:[],
+			abilities:[],
 			skills:[]
 		}
 	},
@@ -38,7 +20,9 @@ const app = Vue.createApp({
 
 			reader.onload = () => {
 				var json = JSON.parse(reader.result);
-				this.skills = json;
+				this.identities = json["identities"];
+				this.abilities = json["abilities"];
+				this.skills = json["skills"];
 			};
 		},
 		delete_card(event_values){
