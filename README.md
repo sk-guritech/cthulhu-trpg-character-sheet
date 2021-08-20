@@ -11,3 +11,10 @@
   - hide/show new card.
 
 And, you can delete card by ctrl+right-click.
+
+## For Dev
+```
+<index.js>
+character_sheet_update_callback()
+```
+Every time update character-sheet status, call this function.
