@@ -8,21 +8,16 @@ const app = Vue.createApp({
 			skills:[],
 			combats:[],
 			weapons:[],
+			back_stories:"",
+			equipments_and_items:"",
+			income_and_assets:"",
 			show_add_cards: true
 		}
 	},
 	methods:{
 		save_sheet(){
-			let json_data = {};
-			json_data["identities"] = this.identities;
-			json_data["statuses"] = this.statuses;
-			json_data["abilities"] = this.abilities;
-			json_data["skills"] = this.skills;
-			json_data["combats"] = this.combats;
-			json_data["weapons"] = this.weapons;
-
 			var blob = new Blob(
-				[JSON.stringify(json_data, null, "    ")], {type: "text/plain;charset=utf-8"});
+				[JSON.stringify(this.$data, null, "    ")], {type: "text/plain;charset=utf-8"});
 			saveAs(blob, "sheet.json");
 		},
 		load_sheet(event){
@@ -68,7 +63,7 @@ const app = Vue.createApp({
 			cards.forEach((card, index) => {
 				if(card.name == event_values[1])cards.splice(index,1);
 			});
-			this.character_sheet_update_callback(card_type);
+			this.character_sheet_update_callback();
 		},
 		change_card_status(event_values){
 			let card_type = event_values["card_type"];
@@ -137,7 +132,7 @@ const app = Vue.createApp({
 			});
 			change_method(cards, index, value);
 
-			this.character_sheet_update_callback(card_type);
+			this.character_sheet_update_callback();
 		},
 		add_new_card(event){
 			let new_card_type = event.target.id.split("-")[2];
@@ -244,11 +239,11 @@ const app = Vue.createApp({
 
 			card_push_method(cards, new_card_name, new_card_value);
 
-			this.character_sheet_update_callback(new_card_type);
+			this.character_sheet_update_callback();
 		},
-		character_sheet_update_callback(updated_card_type){
+		character_sheet_update_callback(){
 			//この部分にAPI叩かせたりする
-			console.log(updated_card_type);
+			console.log(JSON.stringify(this.$data, null, "    "));
 		}
 	}
 });

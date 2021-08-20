@@ -254,5 +254,9 @@
             "failure": 99,
             "status": ""
         }
-    ]
+    ],
+    "back_stories": "",
+    "equipments_and_items": "",
+    "income_and_assets": "",
+    "show_add_cards": true
 }

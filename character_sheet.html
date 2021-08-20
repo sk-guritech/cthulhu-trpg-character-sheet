@@ -113,21 +113,21 @@
 					<div class="backstory">
 						<div style="font-size: larger; border-bottom: 1px black solid; width:30.5em; margin: 2em; margin-bottom: -0.8em; margin-top: 0.5em">Back Story</div>
 						<div style="margin: 2em; margin-left: 3em; margin-bottom: 0.5em">
-							<textarea rows="6" style="width: 33em"></textarea>
+							<textarea v-model="back_stories" @input="character_sheet_update_callback" rows="6" style="width: 33em"></textarea>
 						</div>
 					</div>
 
 					<div class="equipments_and_items">
 						<div style="font-size: larger; border-bottom: 1px black solid; width:30.5em; margin: 2em; margin-bottom: -0.8em; margin-top: 0.5em">Equipments & Items</div>
 						<div style="margin: 2em; margin-left: 3em; margin-bottom: 0.5em">
-							<textarea rows="6" style="width: 33em"></textarea>
+							<textarea v-model="equipments_and_items" @input="character_sheet_update_callback" rows="6" style="width: 33em"></textarea>
 						</div>
 					</div>
 
 					<div class="income_and_assets">
 						<div style="font-size: larger; border-bottom: 1px black solid; width:30.5em; margin: 2em; margin-bottom: -0.8em; margin-top: 0.5em">Income & Assets</div>
 						<div style="margin: 2em; margin-left: 3em; margin-bottom: 0.5em">
-							<textarea rows="6" style="width: 33em"></textarea>
+							<textarea v-model="income_and_assets" @input="character_sheet_update_callback" rows="6" style="width: 33em"></textarea>
 						</div>
 					</div>
 
