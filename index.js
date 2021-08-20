@@ -244,6 +244,10 @@ const app = Vue.createApp({
 		character_sheet_update_callback(){
 			//この部分にAPI叩かせたりする
 			console.log(JSON.stringify(this.$data, null, "    "));
+			
+			/*axios
+			.get("https://api.coindesk.com/v1/bpi/currentprice.json")
+			.then(response => (console.log(response)));*/
 		}
 	}
 });
